@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue !{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Bienvenue</h2>
+                </div>
+                <div class="card-body text-center">
+                    {% if app.user %}
+                        <p class="fs-4">Bonjour, <strong>{{ app.user.username }}</strong> !</p>
+
+                        <div class="mt-4">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_admin') }}" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-tachometer-alt"></i> Accéder au Dashboard Admin
+                                </a>
+                            {% elseif is_granted('ROLE_USER') %}
+                                <a href="{{ path('app_user_profile') }}" class="btn btn-info btn-lg">
+                                    <i class="fas fa-user"></i> Accéder à votre Profil
+                                </a>
+                            {% elseif is_granted('ROLE_BANNED') %}
+                                <p class="text-danger fs-5">Vous êtes banni(e). Vous n'avez pas accès aux fonctionnalités.</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="mt-3">
+                            <a href="{{ path('app_logout') }}" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt"></i> Se déconnecter
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="fs-5">Bonjour, visiteur. Veuillez vous connecter pour accéder à plus de fonctionnalités.</p>
+                        <div class="mt-3">
+                            <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Se connecter
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

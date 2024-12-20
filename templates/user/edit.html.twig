@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Utilisateur : {{ user.username }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Modifier l'Utilisateur : {{ user.username }}</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <div class="mt-4 d-flex justify-content-between">
+        <a href="{{ path('app_user_index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+        <div>
+            {{ include('user/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

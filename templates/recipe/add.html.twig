@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Nouvelle Recette{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Ajouter une Nouvelle Recette</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            {{ form_start(form) }}
+
+            <div class="mb-3">
+                {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.image, 'URL de l\'image', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.image) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.duration, 'Durée (en minutes)', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.duration, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.duration) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.difficulty, 'Difficulté', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.difficulty, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.difficulty) }}
+            </div>
+
+            <div class="mb-3">
+    <label for="ingredients" class="form-label">Ingrédients</label>
+    <div id="recipe_ingredients" data-prototype="{{ form_row(form.ingredients.vars.prototype)|e('html_attr') }}" data-index="{{ form.ingredients|length }}">
+        {% for ingredient in form.ingredients %}
+            <div class="ingredient-entry mt-2">
+                {{ form_row(ingredient) }}
+                <button type="button" class="btn btn-danger btn-sm remove-ingredient mt-2">Supprimer</button>
+            </div>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-success mt-3" id="add-ingredient">
+        <i class="fas fa-plus"></i> Ajouter un ingrédient</button>
+    {{ form_errors(form.ingredients) }}
+</div>
+
+<div class="mb-3">
+    <label for="steps" class="form-label">Étapes</label>
+    <div id="steps" data-prototype="{{ form_row(form.steps.vars.prototype)|e('html_attr') }}" data-index="{{ form.steps|length }}">
+        {% for step in form.steps %}
+            <div class="step-entry mt-2">
+                {{ form_row(step) }}
+                <button type="button" class="btn btn-danger btn-sm remove-step mt-2">Supprimer</button>
+            </div>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-success mt-3" id="add-step">
+        <i class="fas fa-plus"></i> Ajouter une étape
+    </button>
+    {{ form_errors(form.steps) }}
+</div>
+
+            <button class="btn btn-primary w-100 mt-4">
+                <i class="fas fa-save"></i> Ajouter la Recette
+            </button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('app_recipe_list') }}" class="btn btn-secondary mt-3">
+        <i class="fas fa-arrow-left"></i> Retour à la liste des recettes
+    </a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ingredientsContainer = document.querySelector('#recipe_ingredients');
+    const addIngredientButton = document.querySelector('#add-ingredient');
+
+    addIngredientButton.addEventListener('click', () => {
+        const prototype = ingredientsContainer.dataset.prototype;
+        const index = ingredientsContainer.dataset.index;
+        const newForm = prototype.replace(/__name__/g, index);
+
+        ingredientsContainer.dataset.index = parseInt(index) + 1;
+
+        const newFormElement = document.createElement('div');
+        newFormElement.classList.add('ingredient-entry', 'mt-2');
+        newFormElement.innerHTML = newForm;
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'btn btn-danger btn-sm remove-ingredient';
+        removeButton.innerText = 'Supprimer';
+        removeButton.addEventListener('click', () => newFormElement.remove());
+
+        newFormElement.appendChild(removeButton);
+        ingredientsContainer.appendChild(newFormElement);
+    });
+
+    const stepsContainer = document.querySelector('#steps');
+    const addStepButton = document.querySelector('#add-step');
+
+    addStepButton.addEventListener('click', () => {
+        const prototype = stepsContainer.dataset.prototype;
+        const index = stepsContainer.dataset.index;
+        const newForm = prototype.replace(/__name__/g, index);
+
+        stepsContainer.dataset.index = parseInt(index) + 1;
+
+        const newFormElement = document.createElement('div');
+        newFormElement.classList.add('step-entry', 'mt-2');
+        newFormElement.innerHTML = newForm;
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'btn btn-danger btn-sm remove-step';
+        removeButton.innerText = 'Supprimer';
+        removeButton.addEventListener('click', () => newFormElement.remove());
+
+        newFormElement.appendChild(removeButton);
+        stepsContainer.appendChild(newFormElement);
+    });
+
+    document.querySelectorAll('.remove-ingredient').forEach(button => {
+        button.addEventListener('click', function () {
+            this.closest('.ingredient-entry').remove();
+        });
+    });
+
+    document.querySelectorAll('.remove-step').forEach(button => {
+        button.addEventListener('click', function () {
+            this.closest('.step-entry').remove();
+        });
+    });
+});
+</script>
+{% endblock %}

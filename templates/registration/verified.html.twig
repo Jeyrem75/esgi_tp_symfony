@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte vérifié{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h2>Compte Vérifié</h2>
+                </div>
+                <div class="card-body text-center">
+                    <p class="mb-4">Votre compte a été vérifié avec succès. Vous pouvez maintenant profiter pleinement de nos fonctionnalités.</p>
+                    <a href="{{ path('app_home') }}" class="btn btn-secondary">
+                        <i class="fas fa-home"></i> Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

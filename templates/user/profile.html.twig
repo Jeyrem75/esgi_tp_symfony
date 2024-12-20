@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Mon Profil</h1>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p><strong>Email :</strong> {{ user.email }}</p>
+            <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+            <p><strong>Rôles :</strong> 
+                {% for role in user.roles %}
+                    <span class="badge bg-primary">{{ role }}</span>
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="{{ path('app_user_edit_profile') }}" class="btn btn-warning">
+            <i class="fas fa-edit"></i> Modifier mon profil
+        </a>
+    </div>
+</div>
+{% endblock %}

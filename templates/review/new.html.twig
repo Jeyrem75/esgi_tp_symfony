@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Nouvel Avis{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Créer un Nouvel Avis</h1>
+
+    <div class="card-body">
+        {{ include('review/_form.html.twig') }}
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="{{ path('app_review_index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+</div>
+{% endblock %}
